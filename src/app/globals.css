@@ -21,11 +21,18 @@
 body {
   /* color: rgb(var(--foreground-rgb)); */
   /* background: rgb(var(--background-end-rgb)); */
-  padding: 1rem;
+
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* overriding base layer  */
+@layer base {
+  h1 {
+    @apply font-bold text-2xl mb-5
   }
 }
