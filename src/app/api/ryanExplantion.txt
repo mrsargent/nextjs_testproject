@@ -1,0 +1,9 @@
+My explanation of how the api works
+
+1. Information is submitted either to GET, POST (cretae new information), PUT (update information), or DELETE via the next request.  In this example is it done on post where the post
+    app targets the specific webpage (e.g. localhost:3000/api/users)
+    a. the next request just gathers the data that is sent via json
+2. zod (library) via the schema.ts file validates the informatoin being sent by the user in the next request to ensure that the data is correct
+    a. e.g. like the email is formatted correctly, the name is the min or max legnth etc. 
+3. Primsma actually fetches/pushes the data to and from the database.  This database connetion was setup in teh prism folder as well as the 
+    database connection string in the .env file.

@@ -4,18 +4,17 @@
 // PUT - updating data
 
 import { NextRequest, NextResponse } from "next/server";
-import schema from './schema'
+import schema from './schema';
+import prisma from "../../../../prisma/client";
+
 
 //no6 using the request input parameter... but nextjs will
 // cache the data if this parameter is not there
-export function GET(request: NextRequest){
+export async function GET(request: NextRequest){
     //fetch users from db
-
+    const users = await prisma.user.findMany();
     //hardcoding for now
-    return NextResponse.json([
-        {id: 1, name: 'ryan'},
-        {id: 2, name: 'bob'}
-    ]);
+    return NextResponse.json(users);
 }
 
 
@@ -30,6 +29,20 @@ export async function POST(request: NextRequest){
     if (!validation.success)
         return NextResponse.json(validation.error.errors, {status: 400});
 
-    return NextResponse.json({id:1, name: body.name}, {status: 201});
+    const user = await prisma.user.findUnique({
+        where: {email: body.email}
+    });
+
+    if (user)
+        return NextResponse.json({error: "User already exists"}, {status: 400});
+
+    const newUser = await prisma.user.create({
+        data: {
+            name: body.name,
+            email: body.email
+        }
+    });
+
+    return NextResponse.json(newUser, {status: 201});
 
 }
